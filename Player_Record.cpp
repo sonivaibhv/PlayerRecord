@@ -1,142 +1,147 @@
 #include<iostream>
+//iostream provides basic input and output services
 #include<conio.h>
+//It is a C header file use to modify MS_DOS 
 #include<stdlib.h>
+//It is general purpose standard library
 #include<string.h>
+//These header file contains classes which are going to use in exception handling
 #include<fstream>
+//This provide insertion operation
 #include <windows.h>	//To use GUI we have included this header file
 using namespace std;
 struct player		
 {
  char name[20];
- char reg[15];
+ char pl_type[15];
  char team[10];
  float age;
 
 };
 
-fstream file;	//fstream is used to open both input and output file
-player obj;
+fstream F;	//fstream is used to open both input and output F
+player object;
 
 void read()		//this read() function will read the data
 {
  cout<<"Enter Player Name: ";
- cin>>obj.name;
+ //To take the input as Player Name
+ cin>>object.name;
+ //To print the Player name
  cout<<"Player Type: ";
- cin>>obj.reg;
+ cin>>object.pl_type;
  cout<<"Enter Team: ";
- cin>>obj.team;
+ cin>>object.team;
  cout<<"Enter Age: ";
- cin>>obj.age;
+ cin>>object.age;
 
- file.open("database.txt",ios::app) ;		//This is file structure format for storing the data
- file.write((char*)&obj,sizeof(obj));
- file.close();
+ F.open("database.txt",ios::app) ;		//This is F structure format for storing the data
+ F.write((char*)&object,sizeof(object));
+ F.close();
  
- MessageBox(0,"Age will be always in integer format", "Title", MB_OK);	//message box code
+ 
+ MessageBox(0,"Age will be always in integer format", "Suggestion Box", MB_OK);	//message box code
 
 }
 
 void display()		//display() is a function this will display the data
-{       //clrscr();	
- file.open("database.txt",ios::in);
- file.read((char*)&obj,sizeof(obj));
+{       //
+ F.open("database.txt",ios::in);
+ F.read((char*)&object,sizeof(object));
 
- while (file.eof()==0)
+ while (F.eof()==0)
  {
-  cout<<"Name: "<<obj.name<<endl;
-  cout<<"Type: "<<obj.reg<<endl;
-  cout<<"Team: "<<obj.team<<endl;
-  cout<<"Age: "<<obj.age<<endl<<endl;
+  cout<<"Name: "<<object.name<<endl;
+  cout<<"Type: "<<object.pl_type<<endl;
+  cout<<"Team: "<<object.team<<endl;
+  cout<<"Age: "<<object.age<<endl<<endl;
 
-  file.read((char*)&obj,sizeof(obj));
+  F.read((char*)&object,sizeof(object));
  }
- file.close();
+ F.close();
 
  getch();
 }
 
 void search()	//search() is the function this will search the record.
-{       //clrscr();
+{       //
  float user;
  cout<<"Enter Age: ";
  cin>>user;
- file.open("database.txt",ios::in);
- file.read((char*)&obj,sizeof(obj));
+ F.open("database.txt",ios::in);
+ F.read((char*)&object,sizeof(object));
 
- while (file.eof()==0)	//intilize condition
+ while (F.eof()==0)	//intilize condition
  {
-  if (obj.age==user)
+  if (object.age==user)
   {
-   cout<<"Name: "<<obj.name<<endl;
-   cout<<"Type: "<<obj.reg<<endl;
-   cout<<"Team: "<<obj.team<<endl;
-   cout<<"Age: "<<obj.age<<endl<<endl;
+   cout<<"Name: "<<object.name<<endl;
+   cout<<"Type: "<<object.pl_type<<endl;
+   cout<<"Team: "<<object.team<<endl;
+   cout<<"Age: "<<object.age<<endl<<endl;
   }
 
-  file.read((char*)&obj,sizeof(obj));
+  F.read((char*)&object,sizeof(object));
  }
- file.close();
+ F.close();
 
  getch();
 }
 
 void edit()
-{      //clrscr();
+{     
 
  char user[15];
  cout<<"Enter Player Type: ";
  cin>>user;
 
- file.open("database.txt",ios::in|ios::out);
- file.read((char*)&obj,sizeof(obj));
+ F.open("database.txt",ios::in|ios::out);
+ F.read((char*)&object,sizeof(object));
 
- while (file.eof()==0)
+ while (F.eof()==0)
  {
-  if (strcmp(obj.reg,user)==0)
+  if (strcmp(object.pl_type,user)==0)
   {
-   cout<<"Name: "<<obj.name<<endl;
-   cout<<"Type: "<<obj.reg<<endl;
-   cout<<"Team: "<<obj.team<<endl;
-   cout<<"Age: "<<obj.age<<endl<<endl;
+   cout<<"Name: "<<object.name<<endl;
+   cout<<"Type: "<<object.pl_type<<endl;
+   cout<<"Team: "<<object.team<<endl;
+   cout<<"Age: "<<object.age<<endl<<endl;
 
    cout<<"\nEnter New Team: ";
-   cin>>obj.team;
+   cin>>object.team;
 
-   file.seekp(file.tellg()-sizeof(obj));
-   file.write((char*)&obj,sizeof(obj));
-   cout<<"\n\nFile Updated";
+   F.seekp(F.tellg()-sizeof(object));
+   F.write((char*)&object,sizeof(object));
+   cout<<"\n\nF Updated";
    break;
   }
 
-  file.read((char*)&obj,sizeof(obj));
+  F.read((char*)&object,sizeof(object));
  }
- file.close();
+ F.close();
 
  getch();
 }
 
 
-int main()		//this is main function
+int main()		//main function
 {
 	
- //clrscr();
 
- //file.open("c:\database.txt",ios::out);
- //file.close();
- int option;
+ int opt;
 
  while(1)
  {
-  //clrscr();
+  
   cout<<"\t**********	Welcome To Player Record Management System	********\n";
   cout<<"Press 1 to Enter Record\n";
   cout<<"Press 2 to Show All Record\n";
   cout<<"Press 3 to Search Record\n";
   cout<<"Press 4 to Exit\n";
   cout<<"\n\nPress Option: ";
-  cin>>option;
+  cin>>opt;
 
-  switch (option)
+  switch (opt)
   {
    case 1:
     read();
